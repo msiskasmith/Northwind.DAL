@@ -46,7 +46,7 @@ namespace Northwind.DAL.EFModels
                 entity.ToTable("customers");
 
                 entity.Property(e => e.CustomerId)
-                    .HasColumnType("char")
+                    .HasMaxLength(128)
                     .HasColumnName("customer_id");
 
                 entity.Property(e => e.CustomerAddress)
@@ -98,7 +98,12 @@ namespace Northwind.DAL.EFModels
             {
                 entity.ToTable("employees");
 
-                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+                entity.HasIndex(e => e.EmployeeEmail, "employee_email_unique")
+                    .IsUnique();
+
+                entity.Property(e => e.EmployeeId)
+                    .HasMaxLength(128)
+                    .HasColumnName("employee_id");
 
                 entity.Property(e => e.EmployeeAddress)
                     .HasMaxLength(60)
@@ -115,6 +120,11 @@ namespace Northwind.DAL.EFModels
                 entity.Property(e => e.EmployeeCountry)
                     .HasMaxLength(15)
                     .HasColumnName("employee_country");
+
+                entity.Property(e => e.EmployeeEmail)
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .HasColumnName("employee_email");
 
                 entity.Property(e => e.EmployeeExtension)
                     .HasMaxLength(4)
@@ -150,7 +160,9 @@ namespace Northwind.DAL.EFModels
                     .HasMaxLength(10)
                     .HasColumnName("employee_postal_code");
 
-                entity.Property(e => e.EmployeeSupervisorId).HasColumnName("employee_supervisor_id");
+                entity.Property(e => e.EmployeeSupervisorId)
+                    .HasMaxLength(128)
+                    .HasColumnName("employee_supervisor_id");
 
                 entity.Property(e => e.EmployeeTitle)
                     .HasMaxLength(30)
@@ -180,10 +192,14 @@ namespace Northwind.DAL.EFModels
                 entity.Property(e => e.OrderId).HasColumnName("order_id");
 
                 entity.Property(e => e.CustomerId)
-                    .HasColumnType("char")
+                    .IsRequired()
+                    .HasMaxLength(128)
                     .HasColumnName("customer_id");
 
-                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+                entity.Property(e => e.EmployeeId)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnName("employee_id");
 
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("date")
@@ -226,11 +242,13 @@ namespace Northwind.DAL.EFModels
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_orders_customers");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_orders_employees");
 
                 entity.HasOne(d => d.OrderShipRegion)

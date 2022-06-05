@@ -14,7 +14,7 @@ namespace Northwind.DAL.EFModels
 
         public short OrderId { get; set; }
         public string CustomerId { get; set; }
-        public short? EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? OrderRequiredDate { get; set; }
         public DateTime? OrderShippedDate { get; set; }

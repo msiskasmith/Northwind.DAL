@@ -13,7 +13,8 @@ namespace Northwind.DAL.EFModels
             Orders = new HashSet<Order>();
         }
 
-        public short EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
+        public string EmployeeEmail { get; set; }
         public string EmployeeLastName { get; set; }
         public string EmployeeFirstName { get; set; }
         public string EmployeeTitle { get; set; }
@@ -29,7 +30,7 @@ namespace Northwind.DAL.EFModels
         public string EmployeeExtension { get; set; }
         public byte[] EmployeePhoto { get; set; }
         public string EmployeeNotes { get; set; }
-        public short? EmployeeSupervisorId { get; set; }
+        public string EmployeeSupervisorId { get; set; }
         public string EmployeePhotoPath { get; set; }
 
         public virtual Employee EmployeeSupervisor { get; set; }
